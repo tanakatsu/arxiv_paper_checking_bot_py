@@ -78,7 +78,8 @@ if len(new_entries):
         else:
             slack.chat.post_message(channel=settings["slack"]["channel"],
                                     username=settings["slack"]["bot_name"],
-                                    text="```" + msg + "```")
+                                    text="```" + msg + "```",
+                                    icon_emoji=settings["slack"]["options"]["icon_emoji"])
     print(f"Found {len(new_entries)} papers.")
     update_histories(histories, new_entries)
     save_histories(histories, HISTORY_FILE)
