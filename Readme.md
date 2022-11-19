@@ -14,6 +14,11 @@ When this bot find papers that matches your keywords, it can notifies you via sl
         - Deep Learning
 
     Set you slack token and destination channel
+1. Install packages
+    ```
+    $ pip install -r requirements.txt
+    ```
 
 Now, preparation is all done.
+
 Set job scheduler (e.g. `cron`) to run `python bot.py` periodically and wait for new papers.
