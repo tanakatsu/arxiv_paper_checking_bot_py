@@ -2,7 +2,7 @@ import os
 import yaml
 import json
 import arxiv
-from slacker import Slacker
+from slack_sdk import WebClient
 from argparse import ArgumentParser
 
 
@@ -69,19 +69,17 @@ for keyword in settings["keywords"]:
 
 new_entries = get_new_entries(results, histories)
 if len(new_entries):
-    slack = Slacker(token=settings["slack"]["token"])
+    client = WebClient(token=settings["slack"]["token"])
     for entry in new_entries:
         msg = build_message(entry)
         if args.dryrun:
             print(msg)
             print("\n")
         else:
-            slack.chat.post_message(channel=settings["slack"]["channel"],
-                                    username=settings["slack"]["bot_name"],
-                                    text="```" + msg + "```",
-                                    icon_emoji=settings["slack"]["options"]["icon_emoji"])
+            client.chat_postMessage(channel=settings["slack"]["channel"], text="```\n" + msg + "\n```")
     print(f"Found {len(new_entries)} papers.")
     update_histories(histories, new_entries)
     save_histories(histories, HISTORY_FILE)
 else:
+    save_histories(histories, HISTORY_FILE)  # DEBUG
     print("Found no new papers.")
